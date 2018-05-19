@@ -10,11 +10,3 @@ redis==2.10.6
 requests==2.18.4
 SQLAlchemy==1.2.7
 urllib3==1.22
-
-[packages]
-redis = "*"
-celery = "*"
-
-
-[requires]
-python_version = "3.6"

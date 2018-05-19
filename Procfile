@@ -1,3 +1,4 @@
+
 redis-server
 celery -A server.celery worker
-python3 server.py
+web: python3 server.py
