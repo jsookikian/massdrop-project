@@ -1,6 +1,5 @@
 import urllib
 from server import app, db, Job, celery
-import struct
 @celery.task(name='fetch_html', timeout=10, max_retries=3)
 def fetch_html(job_id):
     with app.app_context():

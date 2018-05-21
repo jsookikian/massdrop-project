@@ -57,7 +57,7 @@ def start_job():
         urlToFetch = request.form['url']
     else:
         redirect("/")
-    # urllib request 'http://' in order to fetch html, so we need to add it here
+    # urllib requires 'http://' in order to fetch html, so we need to add it here
     if 'http://' not in urlToFetch:
         urlToFetch = 'http://' + urlToFetch
     job_id = add_job(urlToFetch)
