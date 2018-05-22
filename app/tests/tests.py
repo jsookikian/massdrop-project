@@ -1,7 +1,7 @@
-import os
-import unittest
 import json
-from server import app, db
+import unittest
+
+from app.server import app
 
 TEST_DB = 'test.db'
 
