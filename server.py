@@ -8,9 +8,6 @@ app.config.from_pyfile('config.py')
 db = SQLAlchemy(app)
 celery = make_celery(app)
 
-if not isfile('app.sqlite'):
-    db.create_all()
-
 class Job(db.Model):
     __tablename__ = 'job'
     id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
@@ -26,6 +23,9 @@ class Job(db.Model):
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
+
+if not isfile('app.sqlite'):
+    db.create_all()
 
 def add_job(url):
     job = Job(url)
