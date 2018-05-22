@@ -4,9 +4,7 @@
 
 virtualenv venv
 source venv/bin/activate
-pip install -r requirements.txt
-celery -A server.celery worker
-python3 server.py
+pip3 install -r requirements.txt
 
 
 
