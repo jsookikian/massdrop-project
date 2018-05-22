@@ -1,7 +1,5 @@
-from __future__ import print_function
-from flask import Flask, render_template, request, json, redirect, jsonify, url_for
+from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
-from celery import Celery
 from flask_celery import make_celery
 
 app = Flask(__name__)
@@ -13,7 +11,7 @@ class Job(db.Model):
     __tablename__ = 'job'
     id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     url = db.Column(db.String(50), nullable=False)
-    status = db.Column(db.String(20))
+    status = db.Column(db.String(20000))
     html = db.Column(db.UnicodeText(20000000), nullable=True)
 
     def __init__(self, url):
@@ -30,6 +28,7 @@ def add_job(url):
     db.session.add(job)
     db.session.commit()
     tasks.fetch_html.apply_async(args=[job.id], countdown=0)
+    # tasks.fetch_html.delay(job.id)
     return job.id
 
 
@@ -49,6 +48,10 @@ def get_job(job_id):
         return render_template('404.htm'),404
 
 
+def getValidatedUrl(url):
+    if 'http://' not in url or 'https://' not in url:
+        return 'http://' + url
+    return url
 
 #Handle post
 @app.route('/newJob', methods=['POST'])
@@ -58,8 +61,7 @@ def start_job():
     else:
         redirect("/")
     # urllib requires 'http://' in order to fetch html, so we need to add it here
-    if 'http://' not in urlToFetch:
-        urlToFetch = 'http://' + urlToFetch
+    urlToFetch = getValidatedUrl(urlToFetch)
     job_id = add_job(urlToFetch)
 
     return redirect(url_for('get_job', job_id=job_id))
