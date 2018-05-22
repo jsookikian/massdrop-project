@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_celery import make_celery
+from os.path import isfile
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 db = SQLAlchemy(app)
 celery = make_celery(app)
+
+if not isfile('app.sqlite'):
+    db.create_all()
 
 class Job(db.Model):
     __tablename__ = 'job'
@@ -74,7 +78,6 @@ def start_job():
 import tasks
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, threaded=True)
-    db.create_all()
 
 
 
