@@ -43,15 +43,20 @@ def get_job(job_id):
         if ('html' in request.headers['Accept']) and (job['html'] is not None):
             #trim off the 'b from the byte encoding
             return job['html'], 200
-        return jsonify(job)
+        else:
+            job['html'] = str(job['html'])
+            return jsonify(job)
     except AttributeError as e:
         return render_template('404.htm'),404
 
 
 def getValidatedUrl(url):
-    if 'http://' not in url or 'https://' not in url:
+    if 'http://' not in url:
         return 'http://' + url
-    return url
+    elif 'https://' not in url:
+        return url.replace("https://", "http://")
+    else:
+        return url
 
 #Handle post
 @app.route('/newJob', methods=['POST'])

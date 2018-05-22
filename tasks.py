@@ -1,7 +1,7 @@
 import urllib.request
 from server import app, db, Job, celery
-
-@celery.task(name='fetch_html')
+from celery.task import task
+@celery.task(name='fetch_html', bind=True, max_retries=10)
 def fetch_html(self, job_id):
     with app.app_context():
         job_obj = Job.query.get(job_id)
@@ -15,6 +15,7 @@ def fetch_html(self, job_id):
             db.session.commit()
         except Exception as exc:
             job_obj.status = "failed: " + str(exc)
+            # print("Retrying " + str(self.request.retries) + " number of times")
             db.session.commit()
 
 
