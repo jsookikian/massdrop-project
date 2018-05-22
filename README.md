@@ -22,7 +22,15 @@ https://github.com/jsookikian/massdrop-project.git && cd massdrop-project
 
 Run the configure script
 ```
-
+./configure.sh
 ```
 
+Start up the celery workers
+```
+celery -A server.celery worker
+```
 
+Start the server
+```
+python3 server.py
+```
