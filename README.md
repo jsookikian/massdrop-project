@@ -20,14 +20,16 @@ Clone the repo
 git clone https://github.com/jsookikian/massdrop-project.git && cd massdrop-project
 ```
 
-Run the configure script
+Create a virtual environment, and install requirements
 ```
-./configure.sh
+virtualenv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
 ```
 
 Start up the celery workers
 ```
-celery -A server.celery worker
+celery -A server.celery worker  > /dev/null 2>&1 &
 ```
 
 Start the server
