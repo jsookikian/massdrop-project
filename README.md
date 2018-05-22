@@ -13,7 +13,7 @@ http://localhost:5000/job/<id>
 
 
 # Installation
-This project depends on >python3.0 and virtualenv being installed
+This project depends on >python3.0, virtualenv, and redis  being installed
 
 Clone the repo
 ```
@@ -27,6 +27,11 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
+Start the redis server
+```
+redis-server
+```
+ 
 Start up the celery workers
 ```
 celery -A server.celery worker  > /dev/null 2>&1 &
