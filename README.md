@@ -17,7 +17,7 @@ This project depends on >python3.0 and virtualenv being installed
 
 Clone the repo
 ```
-https://github.com/jsookikian/massdrop-project.git && cd massdrop-project
+git clone https://github.com/jsookikian/massdrop-project.git && cd massdrop-project
 ```
 
 Run the configure script
