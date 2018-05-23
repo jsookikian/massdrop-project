@@ -34,10 +34,10 @@ redis-server
  
 Start up the celery workers
 ```
-celery -A server.celery worker  > /dev/null 2>&1 &
+cd src && celery -A app.celery worker  > /dev/null 2>&1 &
 ```
 
 Start the server
 ```
-python3 server.py
+python3 src/app.py
 ```
