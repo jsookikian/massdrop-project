@@ -12,7 +12,7 @@ job.db.init_app(app)
 from workers import fetch_html_task
 @app.route("/")
 def main():
-    return render_template("templates/index.html")
+    return render_template("index.html")
 
 @app.route("/job/<job_id>", methods=['GET'])
 def get_job(job_id):
@@ -24,7 +24,7 @@ def get_job(job_id):
             job_obj['html'] = str(job_obj['html'])
             return jsonify(job_obj)
     except AttributeError as e:
-        return render_template('templates/404.htm'),404
+        return render_template('404.htm'),404
 
 
 #Handle post
@@ -44,4 +44,4 @@ def start_job():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
