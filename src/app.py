@@ -1,3 +1,4 @@
+from os.path import isfile
 from flask import Flask, render_template, request, redirect, jsonify, url_for
 
 from flask_celery import make_celery
@@ -8,6 +9,8 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 celery = make_celery(app)
 job.db.init_app(app)
+if not isfile('app.sqlite'):
+	db.create_all()
 
 from workers import fetch_html_task
 @app.route("/")

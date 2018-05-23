@@ -1,4 +1,3 @@
-from os.path import isfile
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -10,6 +9,7 @@ JOB_STATUS = {
 'DONE' : "Done",
 'FAILED' : "Failed"
 }
+
 
 class Job(db.Model):
 	__tablename__ = 'job'
@@ -47,5 +47,3 @@ def add_job(url):
 def fetch_by_id(job_id):
 	return Job.query.get(job_id)
 
-# if not isfile('app.sqlite'):
-# 	db.create_all()
