@@ -1,14 +1,17 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for
 
 from flask_celery import make_celery
+from models.init_db import db
 from models import job
+
 from utilities import getValidatedUrl
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 celery = make_celery(app)
-job.db.init_app(app)
-
+db.init_app(app)
+db.app = app
+db.create_all()
 
 from workers import fetch_html_task
 @app.route("/")
