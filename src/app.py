@@ -4,7 +4,7 @@ from flask_celery import make_celery
 from models.init_db import db
 from models import job
 
-from utilities import getValidatedUrl
+from utilities import get_validated_url
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -34,12 +34,13 @@ def get_job(job_id):
 #Handle post
 @app.route('/newJob', methods=['POST'])
 def start_job():
+    # Make sure a url was actually sent
     if len(request.form['url']) > 0:
         urlToFetch = request.form['url']
     else:
         redirect("/")
-    # urllib requires 'http://' in order to fetch html, so we need to add it here
-    urlToFetch = getValidatedUrl(urlToFetch)
+    # urllib requires 'http://' in order to fetch html, so we need to get a validated url
+    urlToFetch = get_validated_url(urlToFetch)
     job_id = job.add_job(urlToFetch)
     fetch_html_task.fetch_html.apply_async(args=[job_id], countdown=0)
     return redirect(url_for('get_job', job_id=job_id))
@@ -48,4 +49,4 @@ def start_job():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)

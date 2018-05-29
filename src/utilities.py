@@ -1,4 +1,4 @@
-def getValidatedUrl(url):
+def get_validated_url(url):
     if 'http://' not in url:
         return 'http://' + url
     elif 'https://' not in url:
